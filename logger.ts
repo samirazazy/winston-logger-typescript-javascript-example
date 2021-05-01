@@ -1,6 +1,6 @@
-import winston, {addColors, createLogger, transports} from 'winston';
+import winston, { addColors, createLogger, transports } from 'winston';
 
-const {timestamp, combine, printf, errors, colorize} = winston.format;
+const { timestamp, combine, printf, errors, colorize } = winston.format;
 
 // Define log levels to see or hide levels based on the running ENV.
 const levels = {
@@ -32,23 +32,35 @@ const logColors = {
 addColors(logColors);
 
 // Define the format of the message.
-const logFormat = printf(({level, message, timestamp, stack}) => `${timestamp} ${level}: ${stack || message}`,
+const logFormat = printf(({ level, message, timestamp, stack }) => `${timestamp} ${level}: ${stack || message}`
 );
 
 // Define log format.
 const format = combine(
-  timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
-  colorize({all: true}),
-  errors({stack: true}),
-  logFormat,
-)
+  timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  colorize({ all: true }),
+  errors({ stack: true }),
+  logFormat
+);
 
 // Define the logger to log messages.
 const Logger = createLogger({
   level: level(),
   levels,
   format,
-  transports: [new transports.Console(),],
-})
+  transports: [new transports.Console()]
+});
 
-export default Logger
+export default Logger;
+
+
+// To use logger
+
+// 1
+// import logger from '../libs/logger/index';
+
+// 2
+// Logger.error("error log");
+// Logger.warn("warn log");
+// Logger.info("info log");
+// Logger.debug("debug log");
